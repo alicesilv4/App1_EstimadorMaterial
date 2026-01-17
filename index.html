@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Tijolos</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧱</text></svg>">
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-area">
+                <h1>🧱 Calculadora de Tijolos</h1>
+                <p>Estimativa de materiais com perdas incluídas (10%)</p>
+            </div>
+        </header>
+
+        <main class="card">
+            <form id="calc-form">
+                <div class="input-group">
+                    <label for="altura">Altura da Parede (m)</label>
+                    <input type="number" id="altura" placeholder="Ex: 2.80" step="0.01" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="comprimento">Comprimento da Parede (m)</label>
+                    <input type="number" id="comprimento" placeholder="Ex: 5.00" step="0.01" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="tipo-tijolo">Tipo de Tijolo/Bloco</label>
+                    <select id="tipo-tijolo" required>
+                        <option value="" disabled selected>Selecione uma opção</option>
+                        <option value="0.0361">Bloco Cerâmico (9x19x19 cm)</option>
+                        <option value="0.0741">Bloco de Concreto (14x19x39 cm)</option>
+                        <option value="0.01">Tijolinho Maciço (5x10x20 cm)</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="calculate-btn">Calcular Quantidade</button>
+            </form>
+
+            <div id="result" class="hidden">
+                <div class="result-content">
+                    <h3>Você precisará de aproximadamente:</h3>
+                    <p id="total-tijolos">0</p>
+                    <span>unidades</span>
+                    <small>Já incluindo 10% de margem de segurança.</small>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Desenvolvido para fins acadêmicos - Engenharia Civil - UFTM</p>
+            <p>Build by Alice Silva</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
