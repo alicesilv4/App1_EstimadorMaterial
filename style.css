@@ -1,208 +1,143 @@
-/* --- Reset e Configurações Gerais --- */
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    /* Fonte importada no HTML */
-}
-
-:root {
-    /* Paleta de Cores - Tema Construção Civil */
-    --primary-color: #e65100;
-    /* Laranja Tijolo */
-    --primary-hover: #c43e00;
-    --background-color: #f4f6f8;
-    /* Cinza Concreto Claro */
-    --card-bg: #ffffff;
-    --text-dark: #2d3436;
-    --text-light: #636e72;
-    --border-color: #dfe6e9;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 body {
-    background-color: var(--background-color);
-    color: var(--text-dark);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, #e9f0ff, #f7f9ff);
+    margin: 0;
     padding: 20px;
 }
 
-/* --- Container Principal --- */
 .container {
-    width: 100%;
     max-width: 480px;
-    /* Largura ideal para um app focado */
-    margin: 0 auto;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.6s ease;
 }
 
-/* --- Cabeçalho --- */
-header {
+h1 {
     text-align: center;
-    margin-bottom: 25px;
+    font-size: 22px;
+    color: #003366;
 }
 
-header h1 {
-    font-size: 1.8rem;
-    color: var(--text-dark);
-    margin-bottom: 5px;
-    font-weight: 700;
-}
-
-header p {
-    color: var(--text-light);
-    font-size: 0.95rem;
-}
-
-/* --- Cartão (Card) da Calculadora --- */
-.card {
-    background-color: var(--card-bg);
-    padding: 30px;
-    border-radius: 16px;
-    /* Bordas arredondadas modernas */
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border-color);
-}
-
-/* --- Inputs e Labels --- */
-.input-group {
+.descricao {
+    font-size: 14px;
+    text-align: center;
+    color: #555;
     margin-bottom: 20px;
-    text-align: left;
 }
 
-.input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--text-dark);
-    font-size: 0.9rem;
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
-.input-group input,
-.input-group select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
-    color: var(--text-dark);
-    background-color: #fafafa;
-    transition: all 0.3s ease;
-    outline: none;
+.campo {
+    display: flex;
+    flex-direction: column;
 }
 
-/* Efeito ao clicar no input */
-.input-group input:focus,
-.input-group select:focus {
-    border-color: var(--primary-color);
-    background-color: #fff;
-    box-shadow: 0 0 0 3px rgba(230, 81, 0, 0.1);
+.campo label {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 4px;
 }
 
-/* --- Botão --- */
+.campo input {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
 button {
-    width: 100%;
-    padding: 14px;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 1rem;
-    font-weight: 700;
-    border: none;
+    grid-column: span 2;
+    padding: 10px;
     border-radius: 8px;
+    border: none;
+    background: #0056b3;
+    color: white;
+    font-size: 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: transform 0.2s, background 0.2s;
 }
 
 button:hover {
-    background-color: var(--primary-hover);
+    background: #003d82;
+    transform: scale(1.02);
 }
 
-button:active {
-    transform: scale(0.98);
-    /* Pequeno clique visual */
-}
-
-/* --- Área de Resultado --- */
-.hidden {
-    display: none;
-    /* Mantém oculto até o JS ativar */
-}
-
-#result {
+.resultado {
     margin-top: 25px;
-    padding-top: 20px;
-    border-top: 2px dashed var(--border-color);
-    text-align: center;
-    animation: fadeIn 0.5s ease;
+    animation: slideUp 0.4s ease;
 }
 
-.result-content h3 {
-    font-size: 1rem;
-    color: var(--text-light);
+.resultado h2 {
+    font-size: 18px;
     margin-bottom: 10px;
 }
 
-#total-tijolos {
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    line-height: 1;
+.barra {
+    background: #e1e7f0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
 }
 
-.result-content span {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--text-dark);
-}
-
-.result-content small {
+.barra span {
     display: block;
-    margin-top: 10px;
-    font-size: 0.8rem;
-    color: var(--text-light);
-    background-color: #fff3e0;
-    padding: 5px 10px;
-    border-radius: 20px;
-    display: inline-block;
+    height: 14px;
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    width: 0%;
+    transition: width 0.6s ease;
 }
 
-/* --- Rodapé --- */
-footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 0.8rem;
-    color: #b2bec3;
+.tipo-final {
+    background: #e8f0ff;
+    padding: 10px;
+    border-left: 5px solid #0056b3;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-weight: bold;
 }
 
-/* --- Animação de entrada --- */
+.oculto {
+    display: none;
+}
+
 @keyframes fadeIn {
     from {
-        opacity: 0;
-        transform: translateY(10px);
+        opacity: 0
     }
 
     to {
-        opacity: 1;
-        transform: translateY(0);
+        opacity: 1
     }
 }
 
-/* --- Responsividade (Celular) --- */
+@keyframes slideUp {
+    from {
+        transform: translateY(15px);
+        opacity: 0
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+
 @media (max-width: 480px) {
-    .card {
-        padding: 20px;
+    .form {
+        grid-template-columns: 1fr;
     }
 
-    header h1 {
-        font-size: 1.5rem;
-    }
-
-    #total-tijolos {
-        font-size: 2.5rem;
+    button {
+        grid-column: span 1;
     }
 }

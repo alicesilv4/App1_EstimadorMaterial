@@ -1,47 +1,58 @@
-// Aguarda o carregamento completo da página para evitar erros
-document.addEventListener('DOMContentLoaded', function () {
+const PADROES = {
+    "Vedação Simples": [2.8, 4.0, 0.09, 20],
+    "Vedação Reforçada": [3.0, 5.0, 0.14, 40],
+    "Alvenaria Estrutural": [3.2, 6.0, 0.19, 80]
+};
 
-    // Selecionando os elementos do HTML
-    const form = document.getElementById('calc-form');
-    const resultDiv = document.getElementById('result');
-    const totalTijolosSpan = document.getElementById('total-tijolos');
+function produtoInterno(v1, v2) {
+    return v1.reduce((soma, val, i) => soma + val * v2[i], 0);
+}
 
-    // Adiciona um "ouvinte" para quando o usuário clicar no botão (enviar o formulário)
-    form.addEventListener('submit', function (event) {
+function norma(v) {
+    return Math.sqrt(produtoInterno(v, v));
+}
 
-        // Impede que a página recarregue (padrão de formulários)
-        event.preventDefault();
+function similaridadeCosseno(v1, v2) {
+    return produtoInterno(v1, v2) / (norma(v1) * norma(v2));
+}
 
-        // 1. Captura os valores dos inputs
-        // parseFloat converte o texto digitado para número decimal
-        const altura = parseFloat(document.getElementById('altura').value);
-        const comprimento = parseFloat(document.getElementById('comprimento').value);
-        const areaTijolo = parseFloat(document.getElementById('tipo-tijolo').value);
+function classificar() {
+    const campos = ["altura", "comprimento", "espessura", "carga"];
+    const valores = campos.map(id => parseFloat(document.getElementById(id).value));
 
-        // Validação básica (caso passe algo errado)
-        if (isNaN(altura) || isNaN(comprimento) || isNaN(areaTijolo)) {
-            alert("Por favor, preencha todos os campos corretamente.");
-            return;
+    if (valores.some(isNaN)) {
+        alert("Preencha todos os campos.");
+        return;
+    }
+
+    const vetorParede = valores;
+    const resultadoDiv = document.getElementById("resultado");
+    resultadoDiv.innerHTML = "<h2>Resultado da Classificação</h2>";
+    resultadoDiv.classList.remove("oculto");
+
+    let melhorTipo = "";
+    let maiorSimilaridade = -Infinity;
+
+    for (const tipo in PADROES) {
+        const sim = similaridadeCosseno(vetorParede, PADROES[tipo]);
+        const porcentagem = Math.max(0, Math.min(sim * 100, 100));
+
+        resultadoDiv.innerHTML += `
+            <strong>${tipo}</strong> – ${porcentagem.toFixed(2)}%
+            <div class="barra">
+                <span style="width:${porcentagem}%"></span>
+            </div>
+        `;
+
+        if (sim > maiorSimilaridade) {
+            maiorSimilaridade = sim;
+            melhorTipo = tipo;
         }
+    }
 
-        // 2. Cálculo da Área da Parede (m²)
-        const areaParede = altura * comprimento;
-
-        // 3. Cálculo da Quantidade de Tijolos (Sem perdas)
-        const quantidadeLiquida = areaParede / areaTijolo;
-
-        // 4. Adicionando 10% de margem de segurança (Perdas/Quebras)
-        // Multiplicar por 1.10 é o mesmo que somar 10%
-        const quantidadeComMargem = quantidadeLiquida * 1.10;
-
-        // 5. Arredondamento
-        // Math.ceil arredonda para o próximo número inteiro (Ex: 50.1 vira 51)
-        const resultadoFinal = Math.ceil(quantidadeComMargem);
-
-        // 6. Exibindo o resultado na tela
-        totalTijolosSpan.textContent = resultadoFinal;
-
-        // Remove a classe 'hidden' para fazer o resultado aparecer
-        resultDiv.classList.remove('hidden');
-    });
-});
+    resultadoDiv.innerHTML += `
+        <div class="tipo-final">
+            Classificação final: ${melhorTipo}
+        </div>
+    `;
+}
